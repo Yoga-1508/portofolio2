@@ -33,16 +33,12 @@
                   <div class="alert alert-danger">{{ session('error') }}</div>
               @endif
                         
-              
-            	<!-- REMOVE DULU VALUE ACTION-NYA JIKA INGIN MELIHATNYA DI BROWSER -->
-            	<!-- KARENA ROUTE NAME front.store_checkout BELUM DIBUAT -->
               <form class="row contact_form" action="{{ route('front.store_checkout') }}" method="post" novalidate="novalidate">
                             @csrf
                         <div class="col-md-12 form-group p_star">
                             <label for="">Nama Lengkap</label>
                             <input type="text" class="form-control" id="first" name="customer_name" required>
                             
-                            <!-- UNTUK MENAMPILKAN JIKA TERDAPAT ERROR VALIDASI -->
                             <p class="text-danger">{{ $errors->first('customer_name') }}</p>
                         </div>
                         <div class="col-md-6 form-group p_star">
@@ -52,7 +48,14 @@
                         </div>
                         <div class="col-md-6 form-group p_star">
                             <label for="">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            @if (auth()->guard('customer')->check())
+                            <input type="email" class="form-control" id="email" name="email" 
+                            value="{{ auth()->guard('customer')->user()->email }}" 
+                            required {{ auth()->guard('customer')->check() ? 'readonly':'' }}>
+                            @else
+                            <input type="email" class="form-control" id="email" name="email"
+                            required>
+                            @endif
                             <p class="text-danger">{{ $errors->first('email') }}</p>
                         </div>
                         <div class="col-md-12 form-group p_star">
@@ -72,7 +75,6 @@
                             <p class="text-danger">{{ $errors->first('province_id') }}</p>
                         </div>
                 
-                  <!-- ADAPUN DATA KOTA DAN KECAMATAN AKAN DI RENDER SETELAH PROVINSI DIPILIH -->
                         <div class="col-md-12 form-group p_star">
                             <label for="">Kabupaten / Kota</label>
                             <select class="form-control" name="city_id" id="city_id" required>
@@ -87,7 +89,6 @@
                             </select>
                             <p class="text-danger">{{ $errors->first('district_id') }}</p>
                         </div>
-                <!-- ADAPUN DATA KOTA DAN KECAMATAN AKAN DI RENDER SETELAH PROVINSI DIPILIH -->
                     
 					</div>
 					<div class="col-lg-4">
@@ -137,19 +138,13 @@
 @endsection
 @section('js')
     <script>
-        //KETIKA SELECT BOX DENGAN ID province_id DIPILIH
         $('#province_id').on('change', function() {
-            //MAKA AKAN MELAKUKAN REQUEST KE URL /API/CITY
-            //DAN MENGIRIMKAN DATA PROVINCE_ID
             $.ajax({
                 url: "{{ url('/api/city') }}",
                 type: "GET",
                 data: { province_id: $(this).val() },
                 success: function(html){
-                    //SETELAH DATA DITERIMA, SELEBOX DENGAN ID CITY_ID DI KOSONGKAN
                     $('#city_id').empty()
-                    //KEMUDIAN APPEND DATA BARU YANG DIDAPATKAN DARI HASIL REQUEST VIA AJAX
-                    //UNTUK MENAMPILKAN DATA KABUPATEN / KOTA
                     $('#city_id').append('<option value="">Pilih Kabupaten/Kota</option>')
                     $.each(html.data, function(key, item) {
                         $('#city_id').append('<option value="'+item.id+'">'+item.name+'</option>')
@@ -157,8 +152,6 @@
                 }
             });
         })
-
-        //LOGICNYA SAMA DENGAN CODE DIATAS HANYA BERBEDA OBJEKNYA SAJA
         $('#city_id').on('change', function() {
             $.ajax({
                 url: "{{ url('/api/district') }}",

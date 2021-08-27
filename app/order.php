@@ -34,4 +34,12 @@ class order extends Model
     {
         return $this->hasOne(Payment::class);
     }
+    public function customer()
+    {
+    return $this->belongsTo(Customer::class);
+    }
+    public function return()
+    {
+    return $this->hasOne(OrderReturn::class);
+    }
 }

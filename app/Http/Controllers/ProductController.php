@@ -87,7 +87,6 @@ class ProductController extends Controller
     }
     public function update(Request $request, $id)
 {
-   //VALIDASI DATA YANG DIKIRIM
     $this->validate($request, [
         'name' => 'required|string|max:100',
         'description' => 'required',
@@ -97,20 +96,16 @@ class ProductController extends Controller
         'image' => 'nullable|image|mimes:png,jpeg,jpg' //IMAGE BISA NULLABLE
     ]);
 
-    $product = Product::find($id); //AMBIL DATA PRODUK YANG AKAN DIEDIT BERDASARKAN ID
-    $filename = $product->image; //SIMPAN SEMENTARA NAMA FILE IMAGE SAAT INI
+    $product = Product::find($id); 
+    $filename = $product->image; 
   
-    //JIKA ADA FILE GAMBAR YANG DIKIRIM
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         $filename = time() . Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
-        //MAKA UPLOAD FILE TERSEBUT
         $file->storeAs('public/products', $filename);
-      	//DAN HAPUS FILE GAMBAR YANG LAMA
         File::delete(storage_path('app/public/products/' . $product->image));
     }
 
-  //KEMUDIAN UPDATE PRODUK TERSEBUT
     $product->update([
         'name' => $request->name,
         'description' => $request->description,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Jul 2021 pada 11.34
+-- Waktu pembuatan: 26 Jul 2021 pada 16.01
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.7
 
@@ -41,7 +41,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `parent_id`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'rotan', NULL, 'rotan', '2021-06-07 21:18:20', '2021-06-07 21:18:20');
+(1, 'rotan', NULL, 'rotan', '2021-06-07 21:18:20', '2021-06-07 21:18:20'),
+(2, 'kursi', NULL, 'kursi', '2021-07-12 22:45:39', '2021-07-12 22:45:39');
 
 -- --------------------------------------------------------
 
@@ -585,14 +586,6 @@ CREATE TABLE `customers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `customers`
---
-
-INSERT INTO `customers` (`id`, `name`, `email`, `password`, `phone_number`, `address`, `district_id`, `activate_token`, `status`, `created_at`, `updated_at`) VALUES
-(4, 'stephanus yoga ariyanto', 'ystevan51@gmail.com', '$2y$10$YnXnQpQHE5IDgUH37ugUsurU2aCAUDtg6LrKEsH2IE..bJMmCpq86', '081333884824', 'Gesingan,luwang,gatak,sukoharjo', 526, 'boM4xIXnMDJcBmZmbJM90Hw8y2Mps8', 0, '2021-07-07 01:30:54', '2021-07-07 01:30:54'),
-(5, 'stephanus yoga ariyanto', 'ystevan48@gmail.com', '$2y$10$Xf9GeMtQvYD5tFw.TjugMObeq3lAVqvTMRQsg3d5WKz0COmYHxcwW', '081333884824', 'Gesingan,luwang,gatak,sukoharjo', 426, 'Svi6j8xXx5lrmlEF1rw5AH5sh5i5SB', 0, '2021-07-07 01:38:21', '2021-07-07 01:38:21');
 
 -- --------------------------------------------------------
 
@@ -7667,7 +7660,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2021_07_07_041104_add_field_password_to_customers_table', 2),
 (14, '2021_07_07_041223_add_field_active_token_to_customers_table', 2),
 (15, '2021_07_07_050825_add_field_status_to_orders_table', 3),
-(16, '2021_07_07_052225_create_payments_table', 4);
+(16, '2021_07_07_052225_create_payments_table', 4),
+(17, '2021_07_11_103106_add_field_tracking_number_to_orders_table', 5),
+(18, '2021_07_11_110058_create_order_returns_table', 6);
 
 -- --------------------------------------------------------
 
@@ -7691,11 +7686,8 @@ CREATE TABLE `orderdetails` (
 --
 
 INSERT INTO `orderdetails` (`id`, `order_id`, `product_id`, `price`, `qty`, `weight`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 38400, 1, 500, '2021-07-06 20:50:53', '2021-07-06 20:50:53'),
-(2, 2, 2, 38400, 1, 500, '2021-07-06 21:08:38', '2021-07-06 21:08:38'),
-(3, 3, 1, 89300, 2, 400, '2021-07-07 01:17:08', '2021-07-07 01:17:08'),
-(4, 4, 1, 89300, 2, 400, '2021-07-07 01:30:54', '2021-07-07 01:30:54'),
-(5, 5, 1, 89300, 2, 400, '2021-07-07 01:38:21', '2021-07-07 01:38:21');
+(1, 1, 8, 89300, 1, 400, '2021-07-26 06:05:38', '2021-07-26 06:05:38'),
+(7, 7, 8, 89300, 1, 400, '2021-07-26 06:50:40', '2021-07-26 06:50:40');
 
 -- --------------------------------------------------------
 
@@ -7713,18 +7705,27 @@ CREATE TABLE `orders` (
   `district_id` bigint(20) UNSIGNED NOT NULL,
   `subtotal` int(11) NOT NULL,
   `status` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '0: new, 1: confirm, 2: process, 3: shipping, 4: done',
+  `tracking_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data untuk tabel `orders`
+-- Struktur dari tabel `order_returns`
 --
 
-INSERT INTO `orders` (`id`, `invoice`, `customer_id`, `customer_name`, `customer_phone`, `customer_address`, `district_id`, `subtotal`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Rdig-1625645828', '3', 'stephanus yoga ariyanto', '081333884824', 'Gesingan,luwang,gatak,sukoharjo', 5980, 178600, '0', '2021-07-07 01:17:08', '2021-07-07 01:17:08'),
-(4, 'ltU7-1625646654', '4', 'stephanus yoga ariyanto', '081333884824', 'Gesingan,luwang,gatak,sukoharjo', 526, 178600, '0', '2021-07-07 01:30:54', '2021-07-07 01:30:54'),
-(5, 'g0De-1625647101', '5', 'stephanus yoga ariyanto', '081333884824', 'Gesingan,luwang,gatak,sukoharjo', 426, 178600, '0', '2021-07-07 01:38:21', '2021-07-07 01:38:21');
+CREATE TABLE `order_returns` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `refund_transfer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '0: pending, 1: approve, 2: cancel',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -7776,15 +7777,6 @@ CREATE TABLE `products` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `products`
---
-
-INSERT INTO `products` (`id`, `name`, `slug`, `category_id`, `description`, `image`, `price`, `weight`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'ORIGINAL TREEBREAD Jaket Pria Sweater Pria Jaket Hoodie', 'original-treebread-jaket-pria-sweater-pria-jaket-hoodie', 1, 'Untuk pilihan motif/model lain jaket original treebeard silahkan cek di menu etalase/label jaket pria (masuk menu etalase piliha label jaket pria)\n\n* Stock barang unlimited\n\n\nGratis ongkir seluruh wilayah Indonesia dengan menggunakan kurir J&amp;amp;T expres (sesuai dengan ketentuan bukalapak)\n\nSyarat dan ketentuan :\n\nGratis ongkir max 15rb dengan minimal belanja 75rb pakai kode KIRIMJT\n\n\nGratis ongkir max 15rb dengan minimal belanja 40rb pakai kode ONGKIRDANA (khusus pembayaran menggunakan metode buka DANA)\n\n\nORIGINAL TREEBREAD Jaket Pria Sweater Pria Jaket Hoodie Jaket Premium\n\nBonus Gantungan treebeard dan stiker\n\nCek keterangan produk sebelum order.\n\n--&gt; Barang di jamin sesuai dengan contoh foto produk (real pict/foto asli)\n\n--&gt; Jaket pria premium terbuat dari bahan catton flecee (lembut tidak tidak cepat berbulu)\n\n--&gt; Pilihan ukuran : L dan XL\n\n*detail ukuran :\n\nSize L (Lebar 52cm - Panjang 62cm)\n\nSize XL (Lebar 54cm - Panjang 64cm)\n\n*Toleransi apabila ukuran berbeda skitar 2cm\n\n--&gt; Warna jaket pria polos : Navy full\n\nUntuk order pilihan ukuran cantumkan di catatan order ya :)\n\n*Cek kontak CS kami di profil toko.', '1623125948iu183j.png', 89300, 400, 1, '2021-06-07 21:19:09', '2021-06-07 21:19:09'),
-(2, 'Sweater Pria - Rajut Tribal Orlando - Sweater Rajut Pria', 'sweater-pria-rajut-tribal-orlando-sweater-rajut-pria', 1, 'Gratis ongkir seluruh wilayah Indonesia dengan menggunakan kurir J&amp;amp;amp;amp;amp;amp;T expres (sesuai dengan ketentuan bukalapak)\n\nSyarat dan ketentuan :\n\n- Gratis ongkir max 15rb dengan minimal belanja 75rb pakai kode \"KIRIMJT\" berlaku sampai tgl 31 oktober 2018.\n\n- Gratis ongkur max 20rb dengan minimal belanja 50rb pakai kode \"SHAKEJT\" berlaku sampai 1 november 2018.\n\nCek keterangan produk sebelum order.\n\nSweater pria model terbaru, Kualitas produk sesuai dengan harga standar Kualitas tidak murahan .. :)\n\n1kg muat untuk 6 barang sweater pria', '1623125949Vw3Tth.jpg', 38400, 500, 1, '2021-06-07 21:19:10', '2021-06-07 21:19:10'),
-(3, 'asdaasdas', 'asdaasdas', 1, '<p>asda</p>', '1623131326asdaasdas.png', 1222000, 33, 1, '2021-06-07 22:48:47', '2021-06-07 22:48:47');
 
 -- --------------------------------------------------------
 
@@ -7919,6 +7911,12 @@ ALTER TABLE `orders`
   ADD UNIQUE KEY `orders_invoice_unique` (`invoice`);
 
 --
+-- Indeks untuk tabel `order_returns`
+--
+ALTER TABLE `order_returns`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -7957,7 +7955,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `cities`
@@ -7969,7 +7967,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT untuk tabel `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `districts`
@@ -7981,25 +7979,31 @@ ALTER TABLE `districts`
 -- AUTO_INCREMENT untuk tabel `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `orderdetails`
 --
 ALTER TABLE `orderdetails`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `order_returns`
+--
+ALTER TABLE `order_returns`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `payments`
@@ -8011,7 +8015,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT untuk tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `provinces`

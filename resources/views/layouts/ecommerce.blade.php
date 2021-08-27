@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" href="img/favicon.png" type="image/png">
     
+
     @yield('title')
     
 	<link rel="stylesheet" href="{{ asset('ecommerce/css/bootstrap.css') }}">
@@ -50,7 +51,7 @@
   						@else
 						<li><a href="{{ route('customer.login') }}">Login</a></li>
 						@endif
-						<li><a href="#">My Account</a></li>
+						<li><a href="{{ route('customer.dashboard') }}">My Account</a></li>
 						<li><a href="contact.html">Contact Us</a></li>
 					</ul>
 				</div>
@@ -61,7 +62,8 @@
 				<div class="container-fluid">
 					<!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand logo_h" href="{{ url('/') }}">
-						<img src="https://daengweb.id/front/dw-theme/images/logo-head.png" alt="">
+						<img src="{{ asset('assets/img/logo-head.png') }}" alt="">
+							
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 					 aria-expanded="false" aria-label="Toggle navigation">
@@ -231,7 +233,7 @@
 				<p class="col-lg-12 footer-text text-center">
                     Copyright &copy;<script>document.write(new Date().getFullYear());</script> 
                     All rights reserved | This template is made with 
-                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://daengweb.id" target="_blank">Daengweb</a>
+                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#" target="_blank">JR</a>
 				</p>
 			</div>
 		</div>

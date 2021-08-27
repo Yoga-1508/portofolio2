@@ -13,7 +13,6 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
           
-          	<!-- ARAH ACTIONYA ADALAH KE ROUTING DENGAN NAME product.saveBulk -->
             <form action="{{ route('product.saveBulk') }}" method="post" enctype="multipart/form-data" >
                 @csrf
                 <div class="row">
@@ -24,7 +23,6 @@
                                     <div class="alert alert-success">{{ session('success') }}</div>
                                 @endif
 
-                                <!-- SETIAP USER HARUS MEMILIH KATEGORI PRODUK TERKAIT -->
                                 <div class="form-group">
                                     <label for="category_id">Kategori</label>
                                     <select name="category_id" class="form-control">

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class customer extends Model
+class customer extends Authenticatable
 {
     use Notifiable;
     protected $guarded = [];
@@ -14,5 +14,9 @@ class customer extends Model
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+    public function district()
+    {
+    return $this->belongsTo(District::class);
     }
 }

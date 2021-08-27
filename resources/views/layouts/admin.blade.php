@@ -4,14 +4,14 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<meta name="description" content="Daengweb - Aplikasi Ecommerce">
-	<meta name="author" content="Daengweb">
-  <meta name="keyword" content="aplikasi ecommerce laravel, tutorial laravel basic, belajar laravel, panduan belajar laravel">
+	<meta name="description" content="JagatRotan - Aplikasi Ecommerce">
+	<meta name="author" content="JagatRotan">
+  <meta name="keyword" content="Pusat Pengrajin dan Supplier Rotan">
     
   	
     @yield('title')
 
-  <!-- UNTUK ME-LOAD ASSET DARI PUBLIC, KITA GUNAKAN HELPER ASSET() -->
+
 	<link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/simple-line-icons.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -31,14 +31,13 @@
             <button class="sidebar-minimizer brand-minimizer" type="button"></button>
         </div>
       
-      	<!-- BAGIAN INI AKAN DI-REPLACE SESUAI ISI YANG DIAPIT DARI @SECTION('CONTENT') -->
         @yield('content')
       
     </div>
 
     <footer class="app-footer">
         <div>
-            <a href="https://coreui.io">Daengweb</a>
+            <a href="https://coreui.io">JagatRotan</a>
             <span>&copy; 2018 creativeLabs.</span>
         </div>
         <div class="ml-auto">

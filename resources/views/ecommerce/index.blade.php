@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>DW Ecommerce - Pusat Belanja Online</title>
+    <title>JR Ecommerce - Pusat Belanja Online</title>
 @endsection
 
 @section('content')
@@ -12,8 +12,8 @@
 			<div class="container">
 				<div class="banner_content row">
 					<div class="offset-lg-2 col-lg-8">
-						<h3>Fashion for
-							<br />Upcoming Winter</h3>
+						<h3>Furniture For
+							<br />Future</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
 							aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 						<a class="white_bg_btn" href="#">View Collection</a>
@@ -66,12 +66,10 @@
 				</div>
 				<div class="row">
           
-          <!-- PERHATIAKAN BAGIAN INI, LOOPING DATA PRODUK -->
           @forelse($products as $row)
 					<div class="col col1">
 						<div class="f_p_item">
 							<div class="f_p_img">
-                <!-- KEMUDIAN TAMPILKAN IMAGENYA DARI FOLDER /PUBLIC/STORAGE/PRODUCTS -->
                 <img class="img-fluid" src="{{ asset('storage/products/' . $row->image) }}" alt="{{ $row->name }}">
 								<div class="p_icon">
 									<a href="{{ url('/product/' . $row->slug) }}">
@@ -79,13 +77,9 @@
 									</a>
 								</div>
 							</div>
-              <!-- KETIKA PRODUK INI DIKLIK MAKA AKAN DIARAHKAN KE URL DIBAWAH -->
-              <!-- HANYA SAJA URL TERSEBUT BELUM DISEDIAKAN PADA ARTIKEL KALI INI -->
               <a href="{{ url('/product/' . $row->slug) }}">
-                <!-- TAMPILKAN NAMA PRODUK -->
                  <h4>{{ $row->name }}</h4>
 							</a>
-              <!-- TAMPILKAN HARGA PRODUK -->
               <h5>Rp {{ number_format($row->price) }}</h5>
 						</div>
 					</div>
@@ -94,7 +88,6 @@
           @endforelse
 				</div>
 
-        <!-- GENERATE PAGINATION UNTUK MEMBUAT NAVIGASI DATA SELANJUTNYA JIKA ADA -->
 				<div class="row">
 					{{ $products->links() }}
 				</div>

@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>List Pesanan - DW Ecommerce</title>
+    <title>List Pesanan - JR Ecommerce</title>
 @endsection
 
 @section('content')
@@ -36,6 +36,12 @@
                     <h4 class="card-title">List Pesanan</h4>
                 </div>
 								<div class="card-body">
+                                @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                                    @endif
+                                    @if (session('success'))    
+                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                    @endif
 									<div class="table-responsive">
                       <table class="table table-hover table-bordered">
                           <thead>
@@ -58,9 +64,17 @@
                                   <td>{{ number_format($row->subtotal) }}</td>
                                   <td>{!! $row->status_label !!}</td>
                                   <td>{{ $row->created_at }}</td>
-                                  <td>
+                                  <td> <form action="{{ route('customer.order_accept') }}" 
+                                        class="form-inline" onsubmit="return confirm('Kamu Yakin?');" method="post">
+                                        @csrf
                                       <a href="{{ route('customer.view_order', $row->invoice) }}" class="btn btn-primary btn-sm">Detail</a>
-                                  </td>
+                                      <input type="hidden" name="order_id" value="{{ $row->id }}">
+                                      @if ($row->status == 3 && $row->return_count == 0)
+                                     <button class="btn btn-success btn-sm">Terima</button>
+                                    <a href="{{ route('customer.order_return', $row->invoice) }}" class="btn btn-danger btn-sm mt-1">Return</a>
+                                    @endif
+                                </form>
+                                </td>
                               </tr>
                               @empty
                               <tr>

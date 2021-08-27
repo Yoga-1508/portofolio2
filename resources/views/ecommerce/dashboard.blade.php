@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>Dashboard - DW Ecommerce</title>
+    <title>Dashboard - JR Ecommerce</title>
 @endsection
 
 @section('content')

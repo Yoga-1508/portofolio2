@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>Jual Produk Fashion - DW Ecommerce</title>
+    <title>Jual Produk Fashion - JR Ecommerce</title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="banner_inner d-flex align-items-center">
             <div class="container">
                 <div class="banner_content text-center">
-                    <h2>Jual Produk Fashion</h2>
+                    <h2>Jual Produk Rotan Furniture</h2>
                     <div class="page_link">
                         <a href="{{ route('front.index') }}">Home</a>
                         <a href="{{ route('front.product') }}">Produk</a>
@@ -45,7 +45,6 @@
                     </div>
                     <div class="latest_product_inner row">
                       
-                      	<!-- PROSES LOOPING DATA PRODUK, SAMA DENGAN CODE YANG ADDA DIHALAMAN HOME -->
                         @forelse ($products as $row)
                         <div class="col-lg-3 col-md-3 col-sm-6">
                             <div class="f_p_item">
@@ -68,7 +67,6 @@
                             <h3 class="text-center">Tidak ada produk</h3>
                         </div>
                         @endforelse
-                      <!-- PROSES LOOPING DATA PRODUK, SAMA DENGAN CODE YANG ADDA DIHALAMAN HOME -->
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -85,7 +83,6 @@
                                         <!-- <a href="{{ $category->child_count > 0 ? '#':url('/category/' . $category->slug) }}">{{ $category->name }}</a> -->
                                         <strong><a href="{{ url('/category/' . $category->slug) }}">{{ $category->name }}</a></strong>
                                         
-                                      	<!-- PROSES LOOPING DATA CHILD KATEGORI -->
                                         @foreach ($category->child as $child)
                                         <ul class="list" style="display: block">
                                             <li>
@@ -102,7 +99,6 @@
                 </div>
             </div>
 
-          	<!-- GENERATE PAGINATION PRODUK -->
             <div class="row">
                 {{ $products->links() }}
             </div>

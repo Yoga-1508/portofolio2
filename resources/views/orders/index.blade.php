@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
 @section('title')
-    <title>List Product</title>
+    <title>Daftar Pesanan</title>
 @endsection
 
 @section('content')
 <main class="main">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">Home</li>
-        <li class="breadcrumb-item active">Product</li>
+        <li class="breadcrumb-item active">Orders</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -17,12 +17,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">
-                                List Product
-                              
-                                <div class="float-right">
-                                <!-- <a href="{{ route('product.bulk') }}" class="btn btn-danger btn-sm">Tambah</a> -->
-                                <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm ">Tambah</a>
-                            </div>
+                                Daftar Pesanan
                             </h4>
                         </div>
                         <div class="card-body">
@@ -33,12 +28,20 @@
                             @if (session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
-                   
-                            <form action="{{ route('product.index') }}" method="get">
-                                <div class="input-group mb-3 col-md-3 float-right">
+
+                            <form action="{{ route('orders.index') }}" method="get">
+                                <div class="input-group mb-3 col-md-6 float-right">
+                                    <select name="status" class="form-control mr-3">
+                                        <option value="">Pilih Status</option>
+                                        <option value="0">Baru</option>
+                                        <option value="1">Confirm</option>
+                                        <option value="2">Proses</option>
+                                        <option value="3">Dikirim</option>
+                                        <option value="4">Selesai</option>
+                                    </select>
                                     <input type="text" name="q" class="form-control" placeholder="Cari..." value="{{ request()->q }}">
                                     <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button">Cari</button>
+                                        <button class="btn btn-secondary" type="submit">Cari</button>
                                     </div>
                                 </div>
                             </form>
@@ -47,47 +50,49 @@
                                 <table class="table table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Produk</th>
-                                            <th>Harga</th>
-                                            <th>Created At</th>
+                                            <th>InvoiceID</th>
+                                            <th>Pelanggan</th>
+                                            <th>Subtotal</th>
+                                            <th>Tanggal</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($product as $row)
+                                        @forelse ($orders as $row)
                                         <tr>
+                                            <td><strong>{{ $row->invoice }}</strong></td>
                                             <td>
-                                                <img src="{{ asset('storage/products/' . $row->image) }}" width="100px" height="100px" alt="{{ $row->name }}">
+                                                <strong>{{ $row->customer_name }}</strong><br>
+                                                <label><strong>Telp:</strong> {{ $row->customer_phone }}</label><br>
+                                                <label><strong>Alamat:</strong> {{ $row->customer_address }} {{ $row->customer->district->name }} - {{  $row->customer->district->city->name}}, {{ $row->customer->district->city->province->name }}</label>
                                             </td>
-                                            <td>
-                                                <strong>{{ $row->name }}</strong><br>
-                                                <label>Kategori: <span class="badge badge-info">{{ $row->category->name }}</span></label><br>
-                                                <label>Berat: <span class="badge badge-info">{{ $row->weight }} gr</span></label>
-                                            </td>
-                                            <td>Rp {{ number_format($row->price) }}</td>
+                                            <td>Rp {{ number_format($row->subtotal) }}</td>
                                             <td>{{ $row->created_at->format('d-m-Y') }}</td>
-                                            
-                                            <td>{!! $row->status_label !!}</td>
                                             <td>
-                                                <form action="{{ route('product.destroy', $row->id) }}" method="post">
+                                            {!! $row->status_label !!} <br>
+                                            @if ($row->return_count > 0)
+                                            <a href="{{ route('orders.return', $row->invoice) }}">Permintaan Return</a>
+                                            @endif
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('orders.destroy', $row->id) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('product.edit', $row->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="{{ route('orders.view', $row->invoice) }}" class="btn btn-warning btn-sm">Lihat</a>
                                                     <button class="btn btn-danger btn-sm">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="5" class="text-center">Tidak ada data</td>
+                                            <td colspan="6" class="text-center">Tidak ada data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
                             </div>
-                            {!! $product->links() !!}
+                            {!! $orders->links() !!}
                         </div>
                     </div>
                 </div>

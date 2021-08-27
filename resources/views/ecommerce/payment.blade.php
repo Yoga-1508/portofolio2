@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>Konfirmasi Pembayaran - DW Ecommerce</title>
+    <title>Konfirmasi Pembayaran - JR Ecommerce</title>
 @endsection
 
 @section('css')
@@ -64,10 +64,10 @@
                             <label for="">Transfer Ke</label>
                             <select name="transfer_to" class="form-control" required>
                                 <option value="">Pilih</option>
-                                <option value="BCA - 1234567">BCA: 1234567 a.n Anugrah Sandi</option>
-                                <option value="Mandiri - 2345678">Mandiri: 2345678 a.n Anugrah Sandi</option>
-                                <option value="BRI - 9876543">BCA: 9876543 a.n Anugrah Sandi</option>
-                                <option value="BNI - 6789456">BCA: 6789456 a.n Anugrah Sandi</option>
+                                <option value="BCA - 1234567">BCA: 392059975 a.n Stephanus Yoga Ariyanto</option>
+                                <option value="Mandiri - 2345678">Mandiri: 2345678 a.n Stephanus Yoga Ariyanto</option>
+                                <option value="BRI - 9876543">BCA: 9876543 a.n Stephanus Yoga Ariyanto</option>
+                                <option value="BNI - 6789456">BCA: 6789456 a.n Stephanus Yoga Ariyanto</option>
                             </select>
                             <p class="text-danger">{{ $errors->first('transfer_to') }}</p>
                         </div>

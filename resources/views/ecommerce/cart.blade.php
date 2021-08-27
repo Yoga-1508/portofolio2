@@ -1,7 +1,7 @@
 @extends('layouts.ecommerce')
 
 @section('title')
-    <title>Keranjang Belanja - Dw Ecommerce</title>
+    <title>Keranjang Belanja - JR Ecommerce</title>
 @endsection
 
 @section('content')
@@ -26,12 +26,8 @@
 		<div class="container">
 			<div class="cart_inner">
         
-        <!-- DISABLE BAGIAN INI JIKA INGIN MELIHAT HASILNYA TERLEBIH DAHULU -->
-        <!-- KARENA MODULENYA AKAN DIKERJAKAN PADA SUB BAB SELANJUTNYA -->
-        <!-- HANYA SAJA DEMI KEMUDAHAN PENULISAN MAKA SAYA MASUKKAN PADA BAGIAN INI -->
                 <form action="{{ route('front.update_cart') }}" method="post">
                     @csrf
-        <!-- DISABLE BAGIAN INI JIKA INGIN MELIHAT HASILNYA TERLEBIH DAHULU -->
                   
 				<div class="table-responsive">
 					<table class="table">
@@ -44,7 +40,6 @@
 							</tr>
 						</thead>
 						<tbody>
-              <!-- LOOPING DATA DARI VARIABLE CARTS -->
                             @forelse ($carts as $row)
 							<tr>
 								<td>
@@ -64,12 +59,8 @@
 									<div class="product_count">
                     
                     
-                    <!-- PERHATIKAN BAGIAN INI, NAMENYA KITA GUNAKAN ARRAY AGAR BISA MENYIMPAN LEBIH DARI 1 DATA -->
                                         <input type="text" name="qty[]" id="sst{{ $row['product_id'] }}" maxlength="12" value="{{ $row['qty'] }}" title="Quantity:" class="input-text qty">
-                                        <input type="hidden" name="product_id[]" value="{{ $row['product_id'] }}" class="form-control">
-                    <!-- PERHATIKAN BAGIAN INI, NAMENYA KITA GUNAKAN ARRAY AGAR BISA MENYIMPAN LEBIH DARI 1 DATA -->
-                    
-                    
+                                        <input type="hidden" name="product_id[]" value="{{ $row['product_id'] }}" class="form-control">                    
 										<button onclick="var result = document.getElementById('sst{{ $row['product_id'] }}'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
 										 class="increase items-count" type="button">
 											<i class="lnr lnr-chevron-up"></i>

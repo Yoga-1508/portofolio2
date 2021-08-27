@@ -11,14 +11,15 @@ use App\Customer;
 class CustomerRegisterMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $customer;
-    protected $randomPassword;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    protected $customer;
+    protected $randomPassword;
+    
+    public function __construct(Customer $customer, $randomPassword)
     {
         $this->customer = $customer;
         $this->randomPassword = $randomPassword;
